@@ -23,6 +23,11 @@ public  class DataReader {
          sc.nextLine();
          return new Book(title,author,relaseDate,pages,publisher,isbn); // zwaracamy obiekt typu Book
      }
+     public int getInt(){
+         int number =  sc.nextInt();
+          sc.nextLine();
+          return  number;
+     }
      public  void  close(){ // metoda zamykająca strumień skanera
          sc.close();
      }
