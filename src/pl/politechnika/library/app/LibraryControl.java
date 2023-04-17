@@ -1,8 +1,12 @@
 package pl.politechnika.library.app;
 
+import pl.politechnika.library.exception.DataExportException;
+import pl.politechnika.library.exception.DataImportException;
 import pl.politechnika.library.exception.NoSuchOptionException;
 import pl.politechnika.library.io.ConsolPrinter;
 import pl.politechnika.library.io.DataReader;
+import pl.politechnika.library.io.file.FileManagerBulider;
+import pl.politechnika.library.io.file.FileMenager;
 import pl.politechnika.library.model.Book;
 import pl.politechnika.library.model.Library;
 import pl.politechnika.library.model.Magazine;
@@ -14,12 +18,26 @@ public class LibraryControl {
 
     // obiekty klasy dataReader do wczytywania dancyh oraz klasy biblioteka
 
-    private Library library = new Library();
+    private Library library;
     private ConsolPrinter printer = new ConsolPrinter();
     private DataReader dataReader = new DataReader(printer);
+    private FileMenager fileMenager;
+
+    LibraryControl() {
+        fileMenager = new FileManagerBulider(printer,dataReader).build();
+        try {
+            library = fileMenager.importData(); // wczytujemy dane do biblioteki z pliku
+            printer.printLine("Wczytano dane z pliku");
+        }
+        catch (DataImportException e){
+            printer.printLine(e.getMessage());
+            printer.printLine("Zainicjowano nową bazę ");
+            library = new Library();
+        }
+        }
 
     // główna pętla aplikacji z możliwością wyboru opcji korzystamy z typu wyliczeniowego ENUM
-    public void controlLoop(){
+    void controlLoop(){
         Option option;
         do{
             printOption();
@@ -80,7 +98,13 @@ public class LibraryControl {
     }
 
     // metody pomocnicze
-    private void exit() {
+    private void exit() { // zapisujemy wszystkie zaminy do pliku przy zamykaniu programu
+        try {
+            fileMenager.exportData(library);
+            printer.printLine("Eksport zakończony suskcesem");
+        }catch (DataExportException e){
+            printer.printLine(e.getMessage());
+        }
         printer.printLine("Koniec programu");
         dataReader.close();
     }

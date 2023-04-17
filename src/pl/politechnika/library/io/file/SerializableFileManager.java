@@ -5,6 +5,7 @@ import pl.politechnika.library.exception.DataImportException;
 import pl.politechnika.library.model.Library;
 
 import javax.imageio.stream.FileImageInputStream;
+import javax.swing.*;
 import java.io.*;
 
 public class SerializableFileManager implements FileMenager{
@@ -16,6 +17,7 @@ public class SerializableFileManager implements FileMenager{
              ObjectInputStream ois = new ObjectInputStream(fis);) {
 
             return (Library)ois.readObject();
+
         } catch (FileNotFoundException e) {
             throw new DataImportException("Brak pliku "+ FILE_NAME);
         } catch (IOException e) {
