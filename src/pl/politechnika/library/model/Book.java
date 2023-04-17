@@ -1,20 +1,20 @@
 package pl.politechnika.library.model;
 
-public class Book {
-    private String title;
+public class Book extends Publication {
+
     private String author;
-   private  int releaseDate;
     private int pages;
-   private  String publisher;
    private  String isbn;
-// getery
-    public String getTitle() {
-        return title;
+    public Book(String title, String author, int releaseDate, int pages, String publisher, String isbn){
+        super(title,publisher,releaseDate); // wywołanie konstruktora z kalsy nadrzędnej
+        this.author = author;
+        this.pages = pages;
+        this.isbn = isbn;
+
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+
+// getery
 
     public String getAuthor() {
         return author;
@@ -24,13 +24,6 @@ public class Book {
         this.author = author;
     }
 
-    public int getReleaseDate() {
-        return releaseDate;
-    }
-//settery
-    public void setReleaseDate(int releaseDate) {
-        this.releaseDate = releaseDate;
-    }
 
     public int getPages() {
         return pages;
@@ -38,14 +31,6 @@ public class Book {
 
     public void setPages(int pages) {
         this.pages = pages;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
     }
 
     public String getIsbn() {
@@ -56,22 +41,10 @@ public class Book {
         this.isbn = isbn;
     }
 
-    // przeciążone konstruktory
-    public Book(String title, String author, int releaseDate, int pages, String publisher){
-        this.title = title;
-        this.author = author;
-        this.releaseDate = releaseDate;
-        this.pages = pages;
-        this.publisher = publisher;
 
-    }
-    public  Book(String title, String author, int releaseDate, int pages, String publisher, String isbn){
-        this(title,author,releaseDate,pages,publisher);
-         this.isbn = isbn;
-     }
 
      public void printInfo() { // Metoda do wyświetlania książek
-         String info = title + "; "+author+"; "+releaseDate+"; "+pages+"; "+publisher;
+         String info = getTitile() + "; "+author+"; "+getYear()+"; "+pages+"; "+getPublisher();
          if(isbn !=null)
              info = info + "; "+isbn;
          System.out.println(info);
