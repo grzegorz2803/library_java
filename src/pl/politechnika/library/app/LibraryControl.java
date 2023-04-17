@@ -6,22 +6,17 @@ import pl.politechnika.library.model.Library;
 import pl.politechnika.library.model.Magazine;
 
 public class LibraryControl {
-    // prywatne pola opcji jakie może wybrać użytkownik
-    private static final int EXIT = 0;
-    private  static final int ADD_BOOK = 1;
-    private  static final int ADD_MAGAZINE = 2;
-    private  static final int PRINT_BOOKS = 3;
-    private  static final int PRINT_MAGAZINES = 4;
+
     // obiekty klasy dataReader do wczytywania dancyh oraz klasy biblioteka
     private DataReader dataReader = new DataReader();
     private Library library = new Library();
 
     // główna pętla aplikacji z możliwością wyboru opcji
     public void controlLoop(){
-        int option;
+        Option option;
         do{
             printOption();
-            option = dataReader.getInt();
+            option = Option.createFromInt(dataReader.getInt());
             switch (option){
                 case ADD_BOOK:
                     addBook();
@@ -41,7 +36,7 @@ public class LibraryControl {
                 default:
                     System.out.println("Nie ma takiej opcji!!!");
             }
-        }while (option != EXIT);
+        }while (option != Option.EXIT);
     }
 
     private void printMagazines() {
@@ -70,11 +65,9 @@ public class LibraryControl {
 
     private void printOption() {
         System.out.println("Wybierz opcje: ");
-        System.out.println(EXIT + " - Wyjście z programu");
-        System.out.println(ADD_BOOK + " - dodanie nowej książki");
-        System.out.println(ADD_MAGAZINE + " - dodanie nowego magazynu");
-        System.out.println(PRINT_BOOKS + " - wyświetlenie dostępnych książek");
-        System.out.println(PRINT_MAGAZINES + " - wyświetlenie dostępnych magazynów");
+        for (Option value : Option.values()) {
+            System.out.println(value);
+        }
 
     }
 }
