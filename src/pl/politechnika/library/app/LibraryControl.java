@@ -1,22 +1,29 @@
 package pl.politechnika.library.app;
 
+import pl.politechnika.library.exception.NoSuchOptionException;
+import pl.politechnika.library.io.ConsolPrinter;
 import pl.politechnika.library.io.DataReader;
 import pl.politechnika.library.model.Book;
 import pl.politechnika.library.model.Library;
 import pl.politechnika.library.model.Magazine;
+import pl.politechnika.library.model.Publication;
+
+import java.util.InputMismatchException;
 
 public class LibraryControl {
 
     // obiekty klasy dataReader do wczytywania dancyh oraz klasy biblioteka
-    private DataReader dataReader = new DataReader();
-    private Library library = new Library();
 
-    // główna pętla aplikacji z możliwością wyboru opcji
+    private Library library = new Library();
+    private ConsolPrinter printer = new ConsolPrinter();
+    private DataReader dataReader = new DataReader(printer);
+
+    // główna pętla aplikacji z możliwością wyboru opcji korzystamy z typu wyliczeniowego ENUM
     public void controlLoop(){
         Option option;
         do{
             printOption();
-            option = Option.createFromInt(dataReader.getInt());
+            option = getOption();
             switch (option){
                 case ADD_BOOK:
                     addBook();
@@ -34,39 +41,70 @@ public class LibraryControl {
                     exit();
                     break;
                 default:
-                    System.out.println("Nie ma takiej opcji!!!");
+                    printer.printLine("Nie ma takiej opcji!!!");
             }
         }while (option != Option.EXIT);
     }
 
+    private Option getOption() { // metoda która pobiera opcję od użytkowanika i sprawdza czy jest poprawna
+        boolean optionOK = false;
+        Option option = null;
+        while (!optionOK){
+            try{
+                option = Option.createFromInt(dataReader.getInt());
+                optionOK=true;
+
+            }catch(NoSuchOptionException e){ // obsługa wyjątku jeśli liczba z poza zakresu
+                printer.printLine(e.getMessage());
+            } catch (InputMismatchException e){ // obsługa wyjątku jeśli nie liczba
+                printer.printLine("Wprowaszona wartość nie jest liczbą");
+            }
+        }
+        return option;
+    }
+
     private void printMagazines() {
-        library.printMagazines();
+        Publication[] publications = library.getPublications();
+        printer.printMagazines(publications);
     }
 
     private void addMagazine() {
-        Magazine magazin = dataReader.readAndCreateMagazine();
-        library.addMagazine(magazin);
+        try {
+            Magazine magazin = dataReader.readAndCreateMagazine();
+            library.addMagazine(magazin);
+        } catch (InputMismatchException e){
+            printer.printLine("Nie udało się się utworzyć magazynu, niepoprawne dane ");
+        }catch (ArrayIndexOutOfBoundsException e){
+            printer.printLine("Osiągnięto limit pojemności, nie można dodać więcej magazynów ");
+        }
     }
 
     // metody pomocnicze
     private void exit() {
-        System.out.println("Koniec programu");
+        printer.printLine("Koniec programu");
         dataReader.close();
     }
 
     private void printBooks() {
-        library.printBooks();
+        Publication[] publications = library.getPublications();
+        printer.printBooks(publications);
     }
 
     private void addBook() {
-        Book book = dataReader.readAndCreateBook();
-        library.addBook(book);
-    }
+        try {
+            Book book = dataReader.readAndCreateBook();
+            library.addBook(book);
+        } catch (InputMismatchException e){
+            printer.printLine("Nie udało się się utworzyć książki, niepoprawne dane ");
+        }catch (ArrayIndexOutOfBoundsException e){
+            printer.printLine("Osiągnięto limit pojemności, nie można dodać więcej książek ");
+        }
+        }
 
     private void printOption() {
-        System.out.println("Wybierz opcje: ");
+        printer.printLine("Wybierz opcje: ");
         for (Option value : Option.values()) {
-            System.out.println(value);
+            printer.printLine(value.toString());
         }
 
     }

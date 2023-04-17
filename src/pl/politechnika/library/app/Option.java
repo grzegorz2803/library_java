@@ -1,6 +1,8 @@
 package pl.politechnika.library.app;
 
- enum Option {
+import pl.politechnika.library.exception.NoSuchOptionException;
+
+enum Option {
     EXIT(0,"wyjście z programu"),
     ADD_BOOK(1,"dodanie nowej książki"),
     ADD_MAGAZINE(2, "dodanie nowego magazynu"),
@@ -26,7 +28,11 @@ package pl.politechnika.library.app;
     public String toString() {
         return value+" - "+description;
     }
-    static Option createFromInt(int option){
-        return Option.values()[option]; //values zwraca tablicę wszytkich opcji
-    }
+    static Option createFromInt(int option) throws NoSuchOptionException {
+        try {
+            return Option.values()[option]; //values zwraca tablicę wszytkich opcji
+        } catch (ArrayIndexOutOfBoundsException e){
+            throw new NoSuchOptionException("Brak opcji o id "+ option); // rzucamy własny wyjątek
+        }
+        }
 }
