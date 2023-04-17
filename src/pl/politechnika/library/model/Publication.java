@@ -2,7 +2,7 @@ package pl.politechnika.library.model;
 
 import java.util.Objects;
 
-public class Publication {
+public abstract class Publication {
     private int year;
     private String titile;
     private String publisher;
