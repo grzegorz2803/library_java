@@ -1,6 +1,8 @@
 package pl.politechnika.library.model;
 
-public class Library {
+import java.io.Serializable;
+
+public class Library implements Serializable {
 
     private static final int MAX_PUBLICATION = 2000; // maksymalna liczba publikacji
     private int publicationsNumber = 0; // aktualna liczba publikacji
