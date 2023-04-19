@@ -74,12 +74,10 @@ public class LibraryControl {
     }
 
     private void printUsers() {
-        printer.printUsers(library.getSortedUsers(new Comparator<LibraryUser>() { // wykorzystanie klasy anonimowej
-            @Override
-            public int compare(LibraryUser o1, LibraryUser o2) {
-                return o1.getLastName().compareToIgnoreCase(o2.getLastName());
-            }
-        }));
+        // wykorzystanie wyrażenia lambda
+        printer.printUsers(library.getSortedUsers(
+                (o1, o2) -> o1.getLastName().compareToIgnoreCase(o2.getLastName()))
+        );
     }
 
     private void addUsers() {
@@ -136,7 +134,7 @@ public class LibraryControl {
 
     private void printMagazines() {
 
-        printer.printMagazines(library.getSortedPublication(new AlphabeticalTitleComparator()));
+        printer.printMagazines(library.getSortedPublication(new AlphabeticalTitleComparator())); // wykorzystanie własnej klasy comperatora
     }
 
 
@@ -164,8 +162,11 @@ public class LibraryControl {
     }
 
     private void printBooks() {
+// wykorzystanie referencji do metod
+        printer.printBooks(library.getSortedPublication(
+                Comparator.comparing(Publication::getTitile, String.CASE_INSENSITIVE_ORDER)
 
-        printer.printBooks(library.getSortedPublication(new AlphabeticalTitleComparator()));
+        ));
     }
 
     private void addBook() {
