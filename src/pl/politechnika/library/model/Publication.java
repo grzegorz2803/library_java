@@ -1,24 +1,25 @@
 package pl.politechnika.library.model;
 
 import java.io.Serializable;
+import java.time.Year;
 import java.util.Objects;
 
 public abstract class Publication implements Serializable, Comparable<Publication>, CsvConvertible {
-    private int year;
+    private Year year;
     private String titile;
     private String publisher;
 
     public Publication( String titile, String publisher,int year) {
-        this.year = year;
+        this.year = Year.of(year);
         this.titile = titile;
         this.publisher = publisher;
     }
 
-    public int getYear() {
+    public Year getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Year year) {
         this.year = year;
     }
 
@@ -50,13 +51,14 @@ public abstract class Publication implements Serializable, Comparable<Publicatio
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Publication that = (Publication) o;
-        return year == that.year && Objects.equals(titile, that.titile) && Objects.equals(publisher, that.publisher);
+        return Objects.equals(year, that.year) && Objects.equals(titile, that.titile) && Objects.equals(publisher, that.publisher);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(year, titile, publisher);
     }
+
 
     @Override
     public int compareTo(Publication o) {
