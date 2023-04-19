@@ -6,6 +6,9 @@ import pl.politechnika.library.io.DataReader;
 import pl.politechnika.library.io.file.FileManagerBulider;
 import pl.politechnika.library.io.file.FileMenager;
 import pl.politechnika.library.model.*;
+import pl.politechnika.library.model.comparator.AlphabeticalTitleComparator;
+
+import java.util.Comparator;
 import java.util.InputMismatchException;
 
 public class LibraryControl {
@@ -71,7 +74,12 @@ public class LibraryControl {
     }
 
     private void printUsers() {
-        printer.printUsers(library.getUsers().values());
+        printer.printUsers(library.getSortedUsers(new Comparator<LibraryUser>() { // wykorzystanie klasy anonimowej
+            @Override
+            public int compare(LibraryUser o1, LibraryUser o2) {
+                return o1.getLastName().compareToIgnoreCase(o2.getLastName());
+            }
+        }));
     }
 
     private void addUsers() {
@@ -128,7 +136,7 @@ public class LibraryControl {
 
     private void printMagazines() {
 
-        printer.printMagazines(library.getPublications().values());
+        printer.printMagazines(library.getSortedPublication(new AlphabeticalTitleComparator()));
     }
 
 
@@ -157,7 +165,7 @@ public class LibraryControl {
 
     private void printBooks() {
 
-        printer.printBooks(library.getPublications().values());
+        printer.printBooks(library.getSortedPublication(new AlphabeticalTitleComparator()));
     }
 
     private void addBook() {

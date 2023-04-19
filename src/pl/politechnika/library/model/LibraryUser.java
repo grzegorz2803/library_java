@@ -51,6 +51,6 @@ public class LibraryUser extends User{
 
     @Override
     public String toCsv() {
-        return getFirstName()+ " "+getLastName()+ " "+getPesel();
+        return getFirstName()+ ";"+getLastName()+ ";"+getPesel();
     }
 }
