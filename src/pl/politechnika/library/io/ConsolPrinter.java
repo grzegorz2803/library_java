@@ -9,34 +9,29 @@ import java.util.Collection;
 
 public class ConsolPrinter { // klasa do wyświetlania informacji dla użytkowanika
     public  void printMagazines(Collection<Publication> publications){
-        int countMagazines=0;
-
-        for (Publication publication : publications) {
-            if(publication instanceof Magazine) {
-                printLine(publication.toString());
-                countMagazines++;
-            }
-        }
-        if(countMagazines==0){
+        long count = publications.stream() // tworzymy strumień
+                .filter(p ->p instanceof Magazine) // filtrujemy książki
+                .map(Publication::toString)  // mapujemy na string
+                .peek(this::printLine) // wyświetlamy poprzez referencje do metody
+                .count(); // zliczmy ilość
+        if(count==0){
             printLine("Brak magazynów do wyświetlenia");
         }
     }
     public  void printBooks(Collection<Publication> publications){  // metoda do wyświetlania książek
-        int coutBooks = 0;
-        for (Publication publication : publications) {
-            if (publication instanceof Book) {
-                printLine(publication.toString());
-                coutBooks++;
-            }
-        }
-        if(coutBooks==0){
+        long count = publications.stream()
+                .filter(p -> p instanceof Book)
+                .map(Publication::toString)
+                .peek(this::printLine)
+                .count();
+        if(count==0){
             printLine("Brak książek do wyświetlenia");
         }
     }
     public void printUsers(Collection<LibraryUser> users){
-        for (LibraryUser user : users) {
-            printLine(user.toString());
-        }
+        users.stream()
+                .map(LibraryUser::toString)
+                .forEach(this::printLine);
     }
     public void printLine(String text){
         System.out.println(text);
