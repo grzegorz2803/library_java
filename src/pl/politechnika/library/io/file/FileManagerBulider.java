@@ -1,15 +1,13 @@
 package pl.politechnika.library.io.file;
 
-import pl.politechnika.library.exception.NoSuchFileTypeException;
+
 import pl.politechnika.library.io.ConsolPrinter;
 import pl.politechnika.library.io.DataReader;
 
-import java.util.Locale;
-
 
 public class FileManagerBulider {
-    private ConsolPrinter printer;
-    private DataReader reader;
+    private final ConsolPrinter printer;
+    private final DataReader reader;
 
     public FileManagerBulider(ConsolPrinter printer, DataReader reader) {
         this.printer = printer;
@@ -18,15 +16,10 @@ public class FileManagerBulider {
     public FileMenager build(){
         printer.printLine("Wybierz format danych: ");
      FileType fileType = getFileType();
-     switch (fileType){
-
-         case SERIAL:
-             return new SerializableFileManager();
-         case CSV:
-             return new CsvFileManager();
-         default:
-             throw new NoSuchFileTypeException("Nieobsługiwany typ danych");
-     }
+        return switch (fileType) {
+            case SERIAL -> new SerializableFileManager();
+            case CSV -> new CsvFileManager();
+        };
     }
 
     private FileType getFileType() {  // metoda do pobierania typu pliku od użytkownika oraz zabezpieczenie przez rzucaniem wyjatków

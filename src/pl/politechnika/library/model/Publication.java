@@ -5,9 +5,9 @@ import java.time.Year;
 import java.util.Objects;
 
 public abstract class Publication implements Serializable, Comparable<Publication>, CsvConvertible {
-    private Year year;
-    private String titile;
-    private String publisher;
+    private final Year year;
+    private final String titile;
+    private final String publisher;
 
     public Publication( String titile, String publisher,int year) {
         this.year = Year.of(year);
@@ -19,25 +19,19 @@ public abstract class Publication implements Serializable, Comparable<Publicatio
         return year;
     }
 
-    public void setYear(Year year) {
-        this.year = year;
-    }
+
 
     public String getTitile() {
         return titile;
     }
 
-    public void setTitile(String titile) {
-        this.titile = titile;
-    }
+
 
     public String getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
+
 
 
 

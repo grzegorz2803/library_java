@@ -7,7 +7,8 @@ import pl.politechnika.library.model.*;
 
 import java.io.*;
 import java.util.Collection;
-import java.util.Scanner;
+
+import static java.lang.Integer.*;
 
 public class CsvFileManager implements FileMenager{
 private static final String FILE_NAME = "Library.csv";
@@ -68,9 +69,9 @@ throw new InvalidDataException("Nieznany typ publikacji "+ type);
     private Magazine createMagazine(String[] split) {
         String title = split[1];
         String publisher = split[2];
-        int year = Integer.valueOf(split[3]);
-        int  month = Integer.valueOf(split[4]);
-        int day = Integer.valueOf(split[5]);
+        int year = parseInt(split[3]);
+        int  month = parseInt(split[4]);
+        int day = parseInt(split[5]);
         String language = split[6];
         return new Magazine(title,publisher,language,year,month,day);
     }
@@ -78,9 +79,9 @@ throw new InvalidDataException("Nieznany typ publikacji "+ type);
     private Book createBook(String[] split) {
         String title = split[1];
         String publisher = split[2];
-        int year = Integer.valueOf(split[3]);
+        int year = parseInt(split[3]);
         String author = split[4];
-        int pages = Integer.valueOf(split[5]);
+        int pages = parseInt(split[5]);
         String isbn = split[6];
         return new Book(title,author,year,pages,publisher,isbn);
     }
@@ -104,7 +105,7 @@ throw new InvalidDataException("Nieznany typ publikacji "+ type);
     private <T extends CsvConvertible>void exportToCsv(Collection<T> collection, String fileName) {
 
         try(var fileWriter = new FileWriter(fileName);
-            var bufferedWriter = new BufferedWriter(fileWriter);){
+            var bufferedWriter = new BufferedWriter(fileWriter)){
             for (T element : collection) {
                 bufferedWriter.write(element.toCsv());
                 bufferedWriter.newLine();

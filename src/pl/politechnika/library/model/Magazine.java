@@ -5,8 +5,8 @@ import java.util.Objects;
 
 public class Magazine extends Publication{
     public static final String TYPE = "Magazyn";
-    private MonthDay montDay;
-    private String language;
+    private final MonthDay montDay;
+    private final String language;
 
     public Magazine(String title, String publisher, String language, int year, int month, int day) {
         super(title,publisher,year);
@@ -15,21 +15,6 @@ public class Magazine extends Publication{
         montDay = MonthDay.of(month,day);
     }
 
-    public MonthDay getMontDay() {
-        return montDay;
-    }
-
-    public void setMontDay(MonthDay montDay) {
-        this.montDay = montDay;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
     @Override
     public String toCsv() {
         return TYPE +";"+

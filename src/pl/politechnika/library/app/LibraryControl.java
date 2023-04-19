@@ -16,9 +16,9 @@ public class LibraryControl {
     // obiekty klasy dataReader do wczytywania dancyh oraz klasy biblioteka
 
     private Library library;
-    private ConsolPrinter printer = new ConsolPrinter();
-    private DataReader dataReader = new DataReader(printer);
-    private FileMenager fileMenager;
+    private final ConsolPrinter printer = new ConsolPrinter();
+    private final DataReader dataReader = new DataReader(printer);
+    private final FileMenager fileMenager;
 
     LibraryControl() {
         fileMenager = new FileManagerBulider(printer,dataReader).build();
@@ -39,38 +39,29 @@ public class LibraryControl {
         do{
             printOption();
             option = getOption();
-            switch (option){
-                case ADD_BOOK:
-                    addBook();
-                    break;
-                case ADD_MAGAZINE:
-                    addMagazine();
-                    break;
-                case PRINT_BOOKS:
-                    printBooks();
-                    break;
-                case PRINT_MAGAZINES:
-                    printMagazines();
-                    break;
-                case DELETE_BOOK:
-                    deleteBook();
-                    break;
-                case DELETE_MAGAZINE:
-                    deleteMagazine();
-                    break;
-                case ADD_USERS:
-                    addUsers();
-                    break;
-                case PRINT_USERS:
-                    printUsers();
-                    break;
-                case EXIT:
-                    exit();
-                    break;
-                default:
-                    printer.printLine("Nie ma takiej opcji!!!");
+            switch (option) {
+                case ADD_BOOK -> addBook();
+                case ADD_MAGAZINE -> addMagazine();
+                case PRINT_BOOKS -> printBooks();
+                case PRINT_MAGAZINES -> printMagazines();
+                case DELETE_BOOK -> deleteBook();
+                case DELETE_MAGAZINE -> deleteMagazine();
+                case ADD_USERS -> addUsers();
+                case PRINT_USERS -> printUsers();
+                case FIND_BOOK -> findBook();
+                case EXIT -> exit();
+                default -> printer.printLine("Nie ma takiej opcji!!!");
             }
         }while (option != Option.EXIT);
+    }
+
+    private void findBook() {
+        printer.printLine("Podaj tytuł publikacji: ");
+        String title = dataReader.getString();
+        String notFoundMessage = "Brak publikacji o takim tytule";
+        library.findPublicationByTitle(title)
+                .map(Publication::toString)
+                .ifPresentOrElse(System.out::println, () -> System.out.println(notFoundMessage));
     }
 
     private void printUsers() {
@@ -196,21 +187,14 @@ public class LibraryControl {
         DELETE_BOOK(5,"Usuń książkę"),
         DELETE_MAGAZINE(6,"Usuń magazyn"),
         ADD_USERS(7, "Dodaj użytkownika"),
-        PRINT_USERS(8,"Wyświetl użytkowników ");
+        PRINT_USERS(8,"Wyświetl użytkowników "),
+        FIND_BOOK(9, "Wyszukaj publikacę");
         private final int value;
         private final String description;
 
         Option(int value, String description) {
             this.value = value;
             this.description = description;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public String getDescription() {
-            return description;
         }
 
         @Override

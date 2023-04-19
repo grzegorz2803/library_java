@@ -5,35 +5,29 @@ import java.util.List;
 import java.util.Objects;
 
 public class LibraryUser extends User{
-    private List<Publication> publicationHistory = new ArrayList<>();
-    private List<Publication> borrowedPublications = new ArrayList<>();
+    private final List<Publication> publicationHistory = new ArrayList<>();
+    private final List<Publication> borrowedPublications = new ArrayList<>();
     public LibraryUser(String firstName, String lastName, String pesel) {
         super(firstName, lastName, pesel);
     }
 
-    public List<Publication> getPublicationHistory() {
-        return publicationHistory;
-    }
 
-    public List<Publication> getBorrowedPublications() {
-        return borrowedPublications;
-    }
 
-    public void addPublicationToHistory(Publication pub){
-        publicationHistory.add(pub);
-    }
-    public void borrowPublication(Publication pub){
-        borrowedPublications.add(pub);
-    }
-    public boolean returnPublication(Publication pub){
-        boolean result = false;
-    if(borrowedPublications.contains(pub)){
-        borrowedPublications.remove(pub);
-        addPublicationToHistory(pub);
-        result= true;
-    }
-    return result;
-    }
+//    public void addPublicationToHistory(Publication pub){
+//        publicationHistory.add(pub);
+//    }
+//    public void borrowPublication(Publication pub){
+//        borrowedPublications.add(pub);
+//    }
+//    public boolean returnPublication(Publication pub){
+//        boolean result = false;
+//    if(borrowedPublications.contains(pub)){
+//        borrowedPublications.remove(pub);
+//        addPublicationToHistory(pub);
+//        result= true;
+//    }
+//    return result;
+//    }
 
     @Override
     public boolean equals(Object o) {

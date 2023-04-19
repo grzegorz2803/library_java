@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public abstract class User implements Serializable, CsvConvertible {
-    private String firstName;
-    private  String lastName;
-    private String pesel;
+    private final String firstName;
+    private final String lastName;
+    private final String pesel;
 
     public User(String firstName, String lastName, String pesel) {
         this.firstName = firstName;
@@ -18,25 +18,19 @@ public abstract class User implements Serializable, CsvConvertible {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+
 
     public String getPesel() {
         return pesel;
     }
 
-    public void setPesel(String pesel) {
-        this.pesel = pesel;
-    }
+
 
     @Override
     public boolean equals(Object o) {

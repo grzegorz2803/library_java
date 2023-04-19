@@ -10,8 +10,8 @@ public class Library implements Serializable {
 
 
 
-    private Map<String, Publication> publications = new HashMap<>();
-    private Map<String, LibraryUser> users = new HashMap<>();
+    private final Map<String, Publication> publications = new HashMap<>();
+    private final Map<String, LibraryUser> users = new HashMap<>();
 
     public Map<String, Publication> getPublications() {
         return publications;
@@ -31,7 +31,9 @@ public class Library implements Serializable {
         list.sort(comparator);
         return list;
     }
-
+    public Optional<Publication> findPublicationByTitle(String title){
+        return  Optional.ofNullable(publications.get(title));
+    }
     public void addPublication(Publication publication){
             if(publications.containsKey(publication.getTitile())){
                 throw new PublicationAlreadyExistsException("Publikacja o tym tytule już istnieje ");

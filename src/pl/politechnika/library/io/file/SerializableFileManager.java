@@ -4,8 +4,6 @@ import pl.politechnika.library.exception.DataExportException;
 import pl.politechnika.library.exception.DataImportException;
 import pl.politechnika.library.model.Library;
 
-import javax.imageio.stream.FileImageInputStream;
-import javax.swing.*;
 import java.io.*;
 
 public class SerializableFileManager implements FileMenager{
@@ -14,7 +12,7 @@ public class SerializableFileManager implements FileMenager{
     public Library importData() {
 
         try( FileInputStream fis = new FileInputStream(FILE_NAME); // taki zapis try odrazu po wykonaniu zamyka strumienie
-             ObjectInputStream ois = new ObjectInputStream(fis);) {
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
 
             return (Library)ois.readObject();
 
@@ -31,7 +29,7 @@ public class SerializableFileManager implements FileMenager{
     @Override // metoda zapisująca dane do pliku
     public void exportData(Library library) {
         try(FileOutputStream fos= new FileOutputStream(FILE_NAME);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);) {
+            ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
             oos.writeObject(library);
         } catch (FileNotFoundException e) {

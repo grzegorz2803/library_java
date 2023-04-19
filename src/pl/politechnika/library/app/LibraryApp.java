@@ -7,6 +7,8 @@ package pl.politechnika.library.app;
 // 4 - wyświetlanie historii wyporzyczeń
 // 5  - wyświetlanie wyporzyczonych książek przez danego użytkownika na podstawie peselu
 // 6 - dodawanie stanu magazynowego książki i poprawa logiki wyporzyczeń i oddawania
+// 7 - walidacja danych rok, miesiąc, dzień
+// 8 - GUI (ewentualnie )
  class LibraryApp {
     private static final String APP_NAME = "Biblioteka";
      public static void main(String[] args) {

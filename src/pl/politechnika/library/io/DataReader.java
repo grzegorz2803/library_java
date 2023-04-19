@@ -7,8 +7,8 @@ import pl.politechnika.library.model.Magazine;
 import java.util.Scanner;
 
 public  class DataReader {
-     private Scanner sc = new Scanner(System.in); // prywatne pole obiektu Scanner do wczytywania danych z klawiatury
-    private ConsolPrinter printer;
+     private final Scanner sc = new Scanner(System.in); // prywatne pole obiektu Scanner do wczytywania danych z klawiatury
+    private final ConsolPrinter printer;
 
     public DataReader(ConsolPrinter printer) {
         this.printer = printer;
